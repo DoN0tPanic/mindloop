@@ -1,0 +1,19 @@
+front,back
+Qual e' l'MTU standard di Ethernet?,1500 byte
+Quante porte TCP esistono in totale?,65536
+Che percentuale di pacchetti persi tollera il VoIP?,"1,5 %"
+In che anno e' nato ARPANET?,1969
+Quando e' stato pubblicato l'RFC 791 (IPv4)?,settembre 1981
+In che data e' entrato in vigore il GDPR?,25/05/2018
+Qual e' la maschera di sottorete di default per una classe C?,255.255.255.0
+Come si calcola il numero di host utilizzabili in una sottorete?,H = 2^n - 2
+Qual e' la formula del prodotto banda-ritardo?,BDP = banda x RTT
+Quali sono i tre pilastri della sicurezza informatica?,"riservatezza, integrita', disponibilita'"
+Quali sono i quattro livelli del modello TCP/IP originale?,"accesso alla rete, internet, trasporto, applicazione"
+Elenca i tre tipi di indirizzo IPv6.,"- unicast
+- multicast
+- anycast"
+Che cos'e' l'handshake a tre vie?,"Lo scambio di SYN, SYN-ACK e ACK con cui due host TCP stabiliscono una connessione sincronizzando i numeri di sequenza"
+Che cosa fa il protocollo ARP?,Risolve un indirizzo IP in un indirizzo MAC all'interno della stessa rete locale
+Qual e' il protocollo di trasporto senza connessione?,UDP
+Come si chiama l'unita' dati del livello 2?,frame (L2PDU)

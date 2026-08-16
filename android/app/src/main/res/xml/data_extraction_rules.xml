@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Regole per Android 12 e successivi. Stessa scelta del file backup_rules,
+    ma qui i due casi vanno dichiarati separatamente:
+
+    - cloud-backup: la copia che finisce sui server di Google;
+    - device-transfer: il passaggio diretto da telefono vecchio a nuovo.
+
+    Il codice di accoppiamento resta fuori dal backup cloud. Nel trasferimento
+    diretto fra due dispositivi dello stesso utente lo si puo' portare: non
+    passa da nessun server, ed e' esattamente il caso in cui riscriverlo a
+    mano sarebbe solo una seccatura.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="sharedpref" path="lan_quiz_settings.xml" />
+        <exclude domain="file" path="quizpacks/" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="file" path="quizpacks/" />
+    </device-transfer>
+</data-extraction-rules>

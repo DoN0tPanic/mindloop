@@ -1,0 +1,55 @@
+# Configurazione di Gitleaks.
+#
+# Si parte dalle regole predefinite (token dei principali servizi, chiavi
+# private, credenziali cloud) e si aggiunge solo cio' che riguarda questo
+# progetto. Le eccezioni sono poche e ognuna ha scritto accanto il motivo:
+# un elenco di esclusioni senza spiegazione, col tempo, finisce per nascondere
+# proprio quello che dovrebbe trovare.
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "mindloop-pairing-code"
+description = "Codice di accoppiamento scritto nel codice invece che generato"
+# Il codice deve nascere a caso a ogni avvio del server. Se ne compare uno
+# fisso in un sorgente, qualcuno ha incollato quello vero della sua macchina.
+regex = '''(?i)(pairing[_-]?code|codice[_-]?accoppiamento)\s*[:=]\s*['"]?\d{6}'''
+tags = ["mindloop", "pairing"]
+
+[[rules]]
+id = "mindloop-keystore-password"
+description = "Password del keystore valorizzata in un file versionato"
+regex = '''(?i)(store|key)Password\s*[:=]\s*['"]?[^\s'"$)\]]{3,}'''
+tags = ["mindloop", "android", "signing"]
+
+[allowlist]
+description = "Eccezioni verificate a mano"
+
+paths = [
+  # Modello con i campi VUOTI: e' li' apposta per spiegare cosa serve.
+  # Il file vero, keystore.properties, e' escluso da .gitignore.
+  '''android/keystore\.properties\.example''',
+  # Questo file: contiene le espressioni regolari dei segreti, non segreti.
+  '''\.gitleaks\.toml''',
+  # I test usano un codice fittizio (123456) per pilotare il server: non e'
+  # il codice di nessuno, e serve che sia fisso perche' il test sia ripetibile.
+  '''baker/tests/.*\.py''',
+]
+
+# Gitleaks confronta le eccezioni con il SOLO segreto estratto, non con
+# la riga: senza questo le regole qui sotto, che descrivono la riga
+# intera, non scattavano mai e ogni lettura da file risultava un segreto.
+regexTarget = "line"
+
+regexes = [
+  # Il codice legge le password da un file non versionato: qui compare il
+  # nome della proprieta', mai un valore. Vale sia per getProperty che per
+  # getValue: la prima versione della regola citava solo getProperty e
+  # lasciava passare come "segreto" la riga che leggeva col secondo.
+  '''(store|key)Password\s*=\s*releaseKeystoreProperties''',
+  # Password universalmente nota della chiave di debug di Android, pubblicata
+  # da Google nella propria documentazione: non e' un segreto. Senza virgoletta
+  # di chiusura, perche' Gitleaks confronta il frammento che ha estratto.
+  '''(store|key)Password\s*=\s*"android''',
+]

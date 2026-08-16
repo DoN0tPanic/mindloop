@@ -1,0 +1,90 @@
+# --- Segreti: mai nel repository ---
+# La chiave di firma e la sua password restano solo sulla macchina di chi
+# pubblica. Se finiscono qui dentro, chiunque puo' firmare aggiornamenti
+# che il telefono accettera' come se fossero nostri.
+*.jks
+*.keystore
+keystore.properties
+local.properties
+
+# --- Artefatti di compilazione ---
+build/
+.gradle/
+# Cache di Gradle locali al workspace (diversi GB): si rigenerano da sole.
+.gradle-home-local/
+.gradle-home-test/
+.gradle-tmp/
+.gradle-*/
+*.apk
+*.aab
+*.aar
+.kotlin/
+*-build.log
+*-build.err
+__pycache__/
+*.py[cod]
+# Impacchettamento dell'eseguibile Windows: si ricostruisce dal sorgente.
+dist/
+build-pyinstaller/
+*.spec
+*_run.log
+exe_gui.log
+.pytest_cache/
+*.egg-info/
+
+# --- Dati di lavoro e di prova ---
+# work.db e .qzd si rigenerano dal mazzo sorgente: versionarli farebbe
+# crescere il repository senza aggiungere informazione.
+*.db
+*.db-shm
+*.db-wal
+*.qzd
+testdata/*_work.db
+server*.log
+
+# --- Materiale delle sessioni di verifica ---
+# Screenshot e dump della UI raccolti mentre si prova sul telefono.
+android/*.png
+android/*.xml
+!android/app/src/**/*.xml
+!android/**/build.gradle.kts
+
+# --- Detriti delle sessioni di verifica ---
+# Screenshot, dump del logcat e script d'appoggio raccolti mentre si provava
+# sul telefono: utili sul momento, inutili nella storia del progetto (26 MB).
+artifacts/
+.tmp/
+# Cartelle di stato create dagli strumenti Android durante le build.
+.android-*/
+
+# --- Configurazione locale degli strumenti ---
+# Vale solo su questa macchina e puo' contenere percorsi personali.
+.claude/
+
+# --- Dump di diagnostica ---
+# I logcat catturati durante le prove contengono l'attivita' di TUTTE le app
+# del telefono, non solo la nostra: non vanno mai versionati.
+logcat*.txt
+swipegesture_log*.txt
+*.err
+server_out.txt
+
+# --- Mai versionare (verificato: nessun file del progetto ne e' colpito) ---
+# Segreti e configurazioni d'ambiente
+.env
+.env.*
+# Log di qualunque origine
+*.log
+# Database sciolti: il .qzd contiene il suo SQLite dentro lo zip, quindi
+# escludere questi non tocca nulla di necessario
+*.sqlite
+*.sqlite3
+# Mazzi Anki: materiale di terzi, non nostro da ridistribuire
+*.apkg
+
+# --- Editor e sistema ---
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db

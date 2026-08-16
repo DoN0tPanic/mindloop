@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Regole di backup per Android 11 e precedenti (fullBackupContent).
+
+    I progressi di studio si salvano: sono l'unica cosa che l'utente non puo'
+    ricreare, e ritrovarli su un telefono nuovo e' il motivo per cui il backup
+    esiste.
+
+    Restano fuori due cose:
+
+    - le impostazioni della connessione al PC, perche' contengono il codice di
+      accoppiamento. E' un segreto debole, ma e' pur sempre la chiave del
+      server sul PC: non ha senso spedirla a un servizio cloud per un'app che
+      dichiara di non mandare niente su Internet;
+    - i pacchetti quiz gia' importati, che si rigenerano dal PC e occuperebbero
+      spazio di backup senza aggiungere nulla.
+-->
+<full-backup-content>
+    <exclude domain="sharedpref" path="lan_quiz_settings.xml" />
+    <exclude domain="file" path="quizpacks/" />
+</full-backup-content>

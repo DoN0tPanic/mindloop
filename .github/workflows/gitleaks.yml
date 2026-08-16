@@ -1,0 +1,47 @@
+name: Ricerca segreti
+
+# Perche' esiste: un segreto committato per sbaglio resta nella cronologia
+# anche dopo che il file viene corretto, e va scoperto prima che il commit
+# raggiunga il ramo principale, non dopo.
+#
+# Gitleaks e' open source e gira interamente dentro il runner: il codice non
+# viene inviato a nessun servizio esterno.
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il repository con tutta la cronologia
+        uses: actions/checkout@v4
+        with:
+          # fetch-depth 0 scarica ogni commit: senza questo Gitleaks vedrebbe
+          # solo l'ultimo, ed e' proprio nella cronologia che i segreti si
+          # nascondono.
+          fetch-depth: 0
+
+      - name: Installa Gitleaks
+        run: |
+          set -euo pipefail
+          VERSIONE=8.28.0
+          curl -sSfL -o gitleaks.tar.gz \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${VERSIONE}/gitleaks_${VERSIONE}_linux_x64.tar.gz"
+          tar -xzf gitleaks.tar.gz gitleaks
+          chmod +x gitleaks
+
+      - name: Analizza la cronologia
+        run: ./gitleaks detect --source . --config .gitleaks.toml --redact --verbose --exit-code 1
+
+      - name: Analizza i file presenti
+        # `detect` guarda i commit, `dir` guarda l'albero cosi' com'e' ora:
+        # servono entrambi, perche' un file non ancora committato in un PR
+        # sfuggirebbe al primo.
+        run: ./gitleaks dir . --config .gitleaks.toml --redact --verbose --exit-code 1
